@@ -30,4 +30,8 @@ Or the following comand (if you have `make` installed):
 make run
 ``` 
 
+## Access
+
 Then, you can check the website accessing the address [http://localhost](http://localhost)
+
+![alt text](site.png "University's site")
