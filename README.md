@@ -13,11 +13,21 @@ To build the site, execute the following command:
 docker build -t test:latest .
 ``` 
 
+Or the following comand (if you have `make` installed):
+```sh
+make build
+``` 
+
 ## Run
 
 To run the site, execute the following command:
 ```sh
 docker run --publish 80:8080 test
 ```
+
+Or the following comand (if you have `make` installed):
+```sh
+make run
+``` 
 
 Then, you can check the website accessing the address [http://localhost](http://localhost)

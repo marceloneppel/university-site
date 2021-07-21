@@ -1,2 +1,5 @@
+build:
+	docker build -t test:latest .
+
 run:
-	cd app && go run main.go
+	docker run --publish 80:8080 test
