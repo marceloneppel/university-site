@@ -1,0 +1,11 @@
+<html>
+	<h1>
+		{{ .title }}
+	</h1>
+	
+	{{range .candidates}}
+		<li><a href="/candidate/{{.Cpf}}">{{.Cpf}}</a></li>
+	{{end}}
+
+	<div><a href="/approvals/{{.nextPage}}">Next page</a></div>
+</html>
