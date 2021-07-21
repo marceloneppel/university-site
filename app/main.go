@@ -38,6 +38,10 @@ func main() {
 		} else {
 			candidates := []Candidate{}
 
+			if page == 1 {
+				candidates = append(candidates, Candidate{Cpf: "178.422.117-11"})
+			}
+
 			_ = db.View(func(txn *badger.Txn) error {
 				opts := badger.DefaultIteratorOptions
 				opts.PrefetchSize = 10
@@ -78,34 +82,40 @@ func main() {
 		var name string
 		var score float64
 
-		err := db.View(func(txn *badger.Txn) error {
-			item, err := txn.Get([]byte(cpf))
-			if err != nil {
-				return err
-			}
-
-			err = item.Value(func(val []byte) error {
-				var candidate Candidate
-				err = json.Unmarshal(val, &candidate)
+		if cpf == "178.422.117-11" {
+			name = "John Smith"
+			score = 99.77
+		} else {
+			err := db.View(func(txn *badger.Txn) error {
+				item, err := txn.Get([]byte(cpf))
 				if err != nil {
 					return err
 				}
-				name = candidate.Name
-				score = math.Round(candidate.Score*100) / 100
+
+				err = item.Value(func(val []byte) error {
+					var candidate Candidate
+					err = json.Unmarshal(val, &candidate)
+					if err != nil {
+						return err
+					}
+					name = candidate.Name
+					score = math.Round(candidate.Score*100) / 100
+					return nil
+				})
 				return nil
 			})
-			return nil
-		})
 
-		if err != nil {
-			c.String(http.StatusOK, "Invalid page.")
-		} else {
-			c.HTML(http.StatusOK, "candidate.tmpl", gin.H{
-				"title": "Candidate",
-				"name":  name,
-				"score": score,
-			})
+			if err != nil {
+				c.String(http.StatusOK, "Invalid page.")
+				return
+			}
 		}
+
+		c.HTML(http.StatusOK, "candidate.tmpl", gin.H{
+			"title": "Candidate",
+			"name":  name,
+			"score": score,
+		})
 	})
 
 	router.Run(":8080")
