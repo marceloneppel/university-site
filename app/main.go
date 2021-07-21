@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"log"
+	"math"
 	"net/http"
 	"strconv"
 
@@ -90,7 +91,7 @@ func main() {
 					return err
 				}
 				name = candidate.Name
-				score = candidate.Score
+				score = math.Round(candidate.Score*100) / 100
 				return nil
 			})
 			return nil
