@@ -68,7 +68,7 @@ func main() {
 
 			if len(candidates) > 0 {
 				c.HTML(http.StatusOK, "approvals.tmpl", gin.H{
-					"title":      "Approved candidates",
+					"title":      "Approved candidates (all data is fake)",
 					"candidates": candidates,
 					"nextPage":   page + 1,
 				})
@@ -113,7 +113,7 @@ func main() {
 		}
 
 		c.HTML(http.StatusOK, "candidate.tmpl", gin.H{
-			"title": "Candidate",
+			"title": "Candidate (all data is fake)",
 			"name":  name,
 			"score": score,
 		})
