@@ -5,6 +5,7 @@ import (
 	"log"
 	"math"
 	"net/http"
+	"os"
 	"strconv"
 
 	badger "github.com/dgraph-io/badger/v3"
@@ -118,5 +119,11 @@ func main() {
 		})
 	})
 
-	router.Run(":8080")
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		port = "3000"
+	}
+
+	router.Run(":" + port)
 }
